@@ -23,7 +23,10 @@ export default function RootLayout({
       <body className={`${outfit.className}  antialiased`}>
         <div className="min-h-screen max-w-[640px] md:max-w-[768px] lg:max-w-[1280px] xl:max-w-[1366px] mx-auto px-5">
           <Navbar />
-          {children}
+
+          <div className="flex-1">
+            {children}
+          </div>
         </div>
       </body>
     </html>
