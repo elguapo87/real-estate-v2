@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
 
 const outfit = Outfit({
   subsets: ["latin"],
   weight: ["400", "700"]
 });
-
-
 
 export const metadata: Metadata = {
   title: "Real Estate",
@@ -21,10 +20,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${outfit.className}  antialiased`}
-      >
-        {children}
+      <body className={`${outfit.className}  antialiased`}>
+        <div className="min-h-screen max-w-[640px] md:max-w-[768px] lg:max-w-[1280px] xl:max-w-[1366px] mx-auto px-5">
+          <Navbar />
+          {children}
+        </div>
       </body>
     </html>
   );
