@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import MobileMenu from './MobileMenu';
 
 const Navbar = () => {
 
@@ -57,7 +58,7 @@ const Navbar = () => {
                         </div>
                 }
 
-                
+                <MobileMenu />
             </div>
         </nav>
     )
