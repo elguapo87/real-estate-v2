@@ -1,13 +1,22 @@
 "use client"
 
+import { AuthContext } from "@/context/AuthContext";
+import { logout } from "@/lib/api/auth";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation";
+
+import { useContext, useEffect } from "react"
 
 const MobileMenu = () => {
 
-    const [isOpen, setIsOpen] = useState(false);
-    const userData = false;
+  
+    const context = useContext(AuthContext);
+        if (!context) throw new Error("MobileMenu must be within AuthContextProvider");
+        const { userData, setUserData, isOpen, setIsOpen } = context;
+    
+        const router = useRouter();
+
 
     useEffect(() => {
         if (isOpen) {
@@ -17,6 +26,12 @@ const MobileMenu = () => {
             document.body.style.overflow = "scroll";
         }
     }, [isOpen]);
+
+    const userLogout = () => {
+        logout();
+        setUserData(null);
+        router.push("/")
+    };
 
     return (
         <div className="md:hidden">
@@ -33,7 +48,7 @@ const MobileMenu = () => {
                     {
                         userData
                           &&
-                    <div className='absolute top-3 right-3 ml-4 bg-white px-2 py-0.5 text-sm text-black flex items-center gap-1 rounded cursor-pointer'>
+                    <div onClick={userLogout} className='absolute top-3 right-3 ml-4 bg-white px-2 py-0.5 text-sm text-black flex items-center gap-1 rounded cursor-pointer'>
                         <Image src="/logout_icon.png" alt='' width={16} height={16} />
                         Logout
                     </div>
