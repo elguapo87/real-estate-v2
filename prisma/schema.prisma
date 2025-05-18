@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int         @id @default(autoincrement())
+  email      String      @unique
+  userName   String
+  password   String
+  avatar     String?
+  createdAt  DateTime    @default(now())
+  posts      Post[]
+  savedPosts SavedPost[]
+  chats      Chat[]      @relation("UserChats")
+  seenChats  Chat[]      @relation("SeenChats")
+  messages   Message[]
+}
+
+model Post {
+  id         Int          @id @default(autoincrement())
+  title      String
+  price      Int
+  images     Image[]
+  address    String
+  city       String
+  bedroom    Int
+  bathroom   Int
+  latitude   Float?
+  longitude  Float?
+  type       Type
+  property   Property
+  createdAt  DateTime     @default(now())
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int
+  postDetail PostDetail[]
+  savedPosts SavedPost[]
+}
+
+model Image {
+  id     Int    @id @default(autoincrement())
+  url    String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId Int
+}
+
+enum Type {
+  buy
+  rent
+}
+
+enum Property {
+  apartment
+  house
+  condo
+  land
+}
+
+model PostDetail {
+  id         Int     @id @default(autoincrement())
+  desc       String  @db.Text
+  utilities  String?
+  pet        String?
+  income     String?
+  size       Int?
+  school     Int?
+  bus        Int?
+  restaurant Int?
+  post       Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId     Int     @unique
+}
+
+model SavedPost {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    Int
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId])
+}
+
+model Chat {
+  id          Int       @id @default(autoincrement())
+  users       User[]    @relation("UserChats")
+  seenBy      User[]    @relation("SeenChats")
+  messages    Message[]
+  lastMessage String?
+  createdAt   DateTime  @default(now())
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  text      String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  chatId    Int
+  createdAt DateTime @default(now())
+}
