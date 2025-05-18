@@ -1,2 +1,11 @@
 @import "tailwindcss";
 
+.state-btn:first-child {
+    border-top-left-radius: 5px;
+    border-right: none;
+}
+
+.state-btn:last-child {
+    border-top-right-radius: 5px;
+    border-left: none;
+}
