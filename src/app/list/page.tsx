@@ -1,188 +1,76 @@
 "use client"
 
-import Loading from '@/components/Loading'
-import Slider from '@/components/Slider'
-
-import dynamic from 'next/dynamic'
-import Image from 'next/image'
-import { useParams } from 'next/navigation'
+import Card from '@/components/Card';
+import Filter from '@/components/Filter';
+import React, { useContext, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
+import dynamic from 'next/dynamic';
+import { AuthContext, PostDataType } from '@/context/AuthContext';
 
 const Map = dynamic(() => import("@/components/Map"), { ssr: false });
 
-const SinglePage = () => {
-
-  const post = true;
-
-  const { id } = useParams();
-  const postId = parseInt(id as string, 10);
-
-
-  return post ? (
-    <div className='flex max-md:flex-col h-full md:mt-10'>
-      <div className='flex-[3] max-md:mb-5'>
-        <div className='md:pr-12.5'>
-
-          <Slider />
-
-          {/* INFO */}
-          <div className='mt-8 md:mt-12.5'>
-            {/* TOP */}
-            <div className='flex justify-between max-md:flex-col-reverse max-md:gap-5'>
-              <div className='flex flex-col gap-5'>
-                <h1 className='font-normal'>title</h1>
-
-                <div className='flex gap-1.25 items-center text-[#888] text-sm'>
-                  <Image src="/pin.png" alt='' width={16} height={16} />
-                  <span>address, city</span>
-                </div>
-
-                <div className='p-1.25 bg-[rgba(254,205,81,0.438)] rounded-[5px] w-max text-xl font-light'>€50000</div>
-              </div>
-
-              {/* USER */}
-              <div className='flex flex-col items-center justify-between gap-3 px-10 py-6 rounded-[10px] bg-[rgba(254,205,81,0.209)] font-semibold'>
-                <Image src={"/noAvatar.png"} alt='' width={50} height={50} className='rounded-full aspect-square object-cover' />
-                <div className='flex items-center gap-2'>
-                  <p className='font-light'>Agent:</p>
-                  <span>User Name</span>
-
-                </div>
-
-                <div className='flex items-center gap-2'>
-                  <p className='font-light'></p>
-                  <span>agent@gmail.com</span>
-                </div>
-
-              </div>
-            </div>
-
-            {/* BOTTOM */}
-            <div className='mt-5 md:mt-12.5 text-[#555] leading-[20px]'>
-              description
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* FEATURES - RIGHT SIDE */}
-      <div className='flex-[2] bg-[#fcf5f3] h-full'>
-        <div className='px-5 flex flex-col gap-5'>
-          <p className='font-bold text-lg mt-5 mb-2.5 max-md:text-center'>General</p>
-
-          {/* LIST VERTICAL */}
-          <div className='flex flex-col gap-5 px-2.5 py-5 bg-white rounded-[10px]'>
-            {/* FEATURE */}
-            <div className='flex items-center gap-2.5'>
-              <Image src="/utility.png" alt='' width={24} height={24} className='bg-[rgba(254,205,81,0.209)]' />
-              {/* FEATURE TEXT */}
-              <div>
-                <span className='font-bold'>Utilities</span>
-                <p className='text-sm'>utilities</p>
-              </div>
-            </div>
-
-            {/* FEATURE */}
-            <div className='flex items-center gap-2.5'>
-              <Image src="/pet.png" alt='' width={24} height={24} className='bg-[rgba(254,205,81,0.209)]' />
-              {/* FEATURE TEXT */}
-              <div>
-                <span className='font-bold'>Pet Policy</span>
-                <p className='text-sm'>Pets: </p>
-              </div>
-            </div>
-
-            {/* FEATURE */}
-            <div className='flex items-center gap-2.5'>
-              <Image src="/fee.png" alt='' width={24} height={24} className='bg-[rgba(254,205,81,0.209)]' />
-              {/* FEATURE TEXT */}
-              <div>
-                <span className='font-bold'>Fees</span>
-                <p className='text-sm'>income</p>
-              </div>
-            </div>
-          </div>
-
-          <p className='font-bold text-lg mb-2.5 max-md:text-center'>Sizes</p>
-          {/* SIZES */}
-          <div className='flex max-md:flex-col max-md:gap-5 max-md:bg-white max-md:py-3 justify-between'>
-            {/* SIZE */}
-            <div className='flex items-center gap-2.5 bg-white p-2.5 rounded-[5px]'>
-              <Image src="/size.png" alt='' width={24} height={24} />
-              <span className='font-bold'>sizes</span>
-            </div>
-
-            {/* SIZE */}
-            <div className='flex items-center gap-2.5 bg-white p-2.5 rounded-[5px]'>
-              <Image src="/bed.png" alt='' width={24} height={24} />
-              <span className='font-bold'>bedrooms</span>
-            </div>
-
-            {/* SIZE */}
-            <div className='flex items-center gap-2.5 bg-white p-2.5 rounded-[5px]'>
-              <Image src="/bath.png" alt='' width={24} height={24} />
-              <span className='font-bold'>bathroom</span>
-            </div>
-          </div>
-
-          <p className='font-bold text-lg mb-2.5 max-md:text-center'>Nerby Places</p>
-          {/* LIST HORIZONTAL */}
-          <div className='flex max-md:flex-col max-md:gap-5 justify-between px-2.5 py-5 bg-white rounded-[10px]'>
-            {/* FEATURE */}
-            <div className='flex items-center gap-2.5'>
-              <Image src="/school.png" alt='' width={24} height={24} />
-              <div>
-                <span className='font-bold'>School</span>
-                <p className='text-sm'>school</p>
-              </div>
-            </div>
-
-            {/* FEATURE */}
-            <div className='flex items-center gap-2.5'>
-              <Image src="/bus.png" alt='' width={24} height={24} />
-              <div>
-                <span className='font-bold'>Bus Stop</span>
-                <p className='text-sm'>bus</p>
-              </div>
-            </div>
-
-            {/* FEATURE */}
-            <div className='flex items-center gap-2.5'>
-              <Image src="/restaurant.png" alt='' width={24} height={24} />
-              <div>
-                <span className='font-bold'>Restaurant</span>
-                <p className='text-sm'>restaurant</p>
-              </div>
-            </div>
-          </div>
-
-          <p className="font-bold text-lg md:mb-2.5 max-md:text-center">Location</p>
-          {/* MAP CONTAINER */}
-          <div className='w-full z-[1]'>
-            <Map />
-          </div>
-
-          {/* BUTTONS */}
-          <div className='flex items-center justify-between mb-3'>
-         
-              <button className='p-2 max-md:text-xs md:p-5 flex items-center gap-1.25 bg-white border border-[#fece51] rounded-[5px] hover:bg-yellow-100 duration-200 cursor-pointer'>
-                <Image src="/chat.png" alt='' width={16} height={16} />
-                Send a Message
-              </button>
-        
-
-            <button className={`p-2 max-md:text-xs md:p-5 flex items-center gap-1.25  border border-[#76f36a] rounded-[5px] hover:bg-green-100 duration-200 cursor-pointer`}>
-              <Image src="/save.png" alt='' width={16} height={16} />
-              save
-            </button>
-          </div>
-        </div>
-      </div>
+const ListPage = () => {
+  return (
+    <div className='flex max-md:flex-col max-md:gap-14 h-full md:mt-8'>
+      <Suspense fallback={<div>Loading...</div>}>
+        <FilteredContent />
+      </Suspense>
     </div>
-  ) : (
-    <Loading />
-  )
-}
+  );
+};
 
-export default SinglePage
+export default ListPage;
 
+// Extracted content with useSearchParams in its own client component
+const FilteredContent = () => {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error("ListPage must be within AuthContextProvider");
+  const { posts, searchFilter, isSearched, filteredPosts, setFilteredPosts } = context;
 
+  const searchParams = useSearchParams();
+  const userId = searchParams.get("userId");
+  const userName = searchParams.get("userName");
+
+  useEffect(() => {
+    if (!posts) return;
+
+    let newFilteredPosts = posts;
+
+    if (userId && userName) {
+      newFilteredPosts = newFilteredPosts.filter((item: PostDataType) => {
+        return item.user?.id?.toString() === userId && item.user?.userName;
+      });
+    }
+
+    if (isSearched) {
+      newFilteredPosts = posts.filter((item: PostDataType) => {
+        const matchesCity = !searchFilter.city || item.city.toLowerCase().includes(searchFilter.city.toLowerCase());
+        const matchesType = searchFilter.type.length === 0 || searchFilter.type.includes(item.type);
+        const matchesProperty = (searchFilter.property?.length ?? 0) === 0 || (searchFilter.property ?? []).includes(item.property);
+        const matchesPrice = (searchFilter.price.minPrice <= item.price) && (searchFilter.price.maxPrice >= item.price);
+        const matchesBedroom = searchFilter.bedroom === 0 || item.bedroom === searchFilter.bedroom;
+
+        return matchesCity && matchesType && matchesProperty && matchesPrice && matchesBedroom;
+      });
+    }
+
+    setFilteredPosts(newFilteredPosts);
+  }, [posts, isSearched, searchFilter, userId, userName, setFilteredPosts]);
+
+  return (
+    <>
+      <div className='md:w-[60%] h-full'>
+        <div className='h-full md:pr-12.5 flex flex-col gap-12.5'>
+          <Filter />
+          {filteredPosts?.map((item) => (
+            <Card key={item.id} item={item} />
+          ))}
+        </div>
+      </div>
+      {/* MAP CONTAINER */}
+      <div className='md:sticky top-[132px] md:w-[40%] h-[500px] md:h-[83vh]'>
+        <Map items={filteredPosts || []} />
+      </div>
+    </>
+  );
+};
